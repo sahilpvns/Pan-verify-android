@@ -24,6 +24,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.innoventes.panverify.R
 import com.innoventes.panverify.viewmodel.PanViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 
 @Composable
@@ -155,10 +159,14 @@ fun PanScreen(viewModel: PanViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         // button Next
+        val scope = rememberCoroutineScope()
         Button(
             onClick = {
                 Toast.makeText(context, "Details submitted successfully", Toast.LENGTH_SHORT).show()
-                activity.finish()
+                scope.launch {
+                    delay(2000.milliseconds)
+                    activity.finish()
+                }
             },
             enabled = state?.isFormValid == true,
             modifier = Modifier.fillMaxWidth().height(55.dp),
